@@ -1,5 +1,5 @@
 
-package jRF;
+package rf;
 
 public class FM1208
 {

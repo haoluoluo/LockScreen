@@ -32,8 +32,4 @@ public class BackgroundImageJFrame extends JFrame {
         return background.add(comp);
     }
 
-    public static void main(String args[])
-    {
-        new BackgroundImageJFrame();
-    }
 }

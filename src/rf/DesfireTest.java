@@ -1,7 +1,9 @@
-package rf.example;
-import java.util.Scanner;
+package rf;
+
 
 import jcumf.umf_javacall;
+
+import java.util.Scanner;
 
 public class DesfireTest {
 	

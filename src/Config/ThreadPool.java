@@ -25,17 +25,15 @@ public class ThreadPool{
      * @return 线程
      */
     public static ThreadPoolExecutor getThreadPoolExecutor() {
-        if (threadPool != null) {
-            return threadPool;
-        } else {
+        if (threadPool == null) {
             synchronized (ThreadPool.class) {
                 if (threadPool == null) {
                     threadPool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS,
                             new LinkedBlockingQueue<>(BLOCK_QUEUE_SIZE), new ThreadPoolExecutor.CallerRunsPolicy());
                 }
             }
-            return threadPool;
         }
+        return threadPool;
     }
 
     public static void shutDown() {

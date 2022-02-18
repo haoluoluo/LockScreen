@@ -1,3 +1,5 @@
+package comp;
+
 import Config.Config;
 import enums.CardType;
 import utils.FileUtils;
@@ -24,19 +26,15 @@ public class InformationPanel extends JPanel {
 
         GridBagConstraints constraints = new GridBagConstraints();
 
-        String labelText ="<html><span>请刷卡解锁</span><br /><br /> <span>PLEASE SWIPE TO UNLOCK</span></html>";
-        String a = "< br /> test";
-//        JLabel label = new JLabel(labelText,JLabel.CENTER);
-        URL backUrl = FileUtils.loadResource("info.png");
+        URL backUrl = FileUtils.loadResource(Config.INFORMATION_IMAGE);
 
         ImageIcon imageIcon = ImageUtils.change(new ImageIcon(backUrl), 0.6);
 
 
         JLabel label = new JLabel(imageIcon);
-//        label.setFont(new Font("宋体", Font.PLAIN, 60));
         label.setForeground(Color.red);
         label.setVisible(true);
-//        label.setBorder(BorderFactory.createLineBorder(Color.red));
+
 
         label.addMouseListener(new MouseAdapter() {
             @Override

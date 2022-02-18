@@ -1,9 +1,11 @@
 package task.job;
 
 import comp.MainWindows;
+import enums.UserStatus;
 import org.quartz.Job;
-import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
+import Config.Config;
+import task.SchedulerMain;
 
 /**
  * @author luoluo.hao
@@ -12,12 +14,9 @@ import org.quartz.JobExecutionContext;
 public class OpenInfoCardJob implements Job{
     @Override
     public void execute(JobExecutionContext jobExecutionContext) {
-        JobDataMap triggerMap = jobExecutionContext.getTrigger().getJobDataMap();
-        WindowsJobDataMap windowsJobDataMap = new WindowsJobDataMap();
-        if(triggerMap instanceof WindowsJobDataMap){
-            windowsJobDataMap = (WindowsJobDataMap) triggerMap;
+        MainWindows mainWindows = SchedulerMain.main;
+        if(Config.getUserStatus() == UserStatus.NORMAL){
+            mainWindows.maximize();
         }
-        MainWindows mainWindows = windowsJobDataMap.getMainWindows();
-        mainWindows.maximize();
     }
 }

@@ -1,7 +1,9 @@
+package comp;
+
 import Config.Config;
 import Config.UserConfig;
-import comp.JPanelEnh;
 import enums.CardType;
+import enums.UserStatus;
 import utils.ASC;
 
 import javax.swing.*;
@@ -46,7 +48,7 @@ public class LoginPanel extends JPanelEnh {
                         ioException.printStackTrace();
                     }
                     if(Objects.equals(passwd, realPd)){
-                        Config.LOGIN_STATUS.set(true);
+                        Config.setUserStats(UserStatus.ADMIN_LOGIN);
                         passwordText.setText("");
                         frame.minimize();
                         frame.changeCard(CardType.INFORMATION);
@@ -55,6 +57,8 @@ public class LoginPanel extends JPanelEnh {
                 }
             }
         });
+
+        setVisible(true);
 
 //        this.setPreferredSize(new Dimension(400, 150));
 //        Font font = new Font("宋体", Font.PLAIN, 30);
@@ -114,7 +118,7 @@ public class LoginPanel extends JPanelEnh {
 ////                    frame.setExtendedState(JFrame.ICONIFIED);
 ////                    info.setVisible(false);
 ////                    this.setVisible(false);
-////                    MyFrame.isLogin = true;
+////                    comp.MyFrame.isLogin = true;
 //                }else{
 //                    info.setVisible(true);
 //                }
@@ -128,8 +132,6 @@ public class LoginPanel extends JPanelEnh {
 ////        this.add(info);
 //
 //
-////        setBounds(100, 100, 100, 100);
-        setVisible(true);
     }
 
 }

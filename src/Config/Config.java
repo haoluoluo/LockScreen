@@ -1,6 +1,6 @@
 package Config;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import enums.UserStatus;
 
 /**
  * @author luoluo.hao
@@ -8,14 +8,27 @@ import java.util.concurrent.atomic.AtomicBoolean;
  **/
 public class Config {
 
-    public static final AtomicBoolean LOGIN_STATUS = new AtomicBoolean(false);
-
     public static final String ASC_PASSWORD = "LmjrYcQdIbjH1S8q";
 
-    public static final int CLICK_COUNT = 1;
+    public static final String PASSWORD_FILE = "passwd";
+
+    public static final int CLICK_COUNT = 2;
 
     public static final String BACKGROUND_IMAGE = "minimalist.jpg";
 
-    public static final String LOGO = "logo.png";
+    public static final String LOGO_IMAGE = "logo.png";
 
+    public static final String INFORMATION_IMAGE = "info.png";
+
+    private static UserStatus userStatus = UserStatus.NORMAL;
+
+    synchronized
+    public static UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    synchronized
+    public static void setUserStats(UserStatus userStatus){
+        Config.userStatus = userStatus;
+    }
 }
