@@ -14,12 +14,12 @@ import java.net.URL;
  * @author luoluo.hao
  * @create 2022-02-14 14:45
  **/
-public class InformationPanel extends JPanel {
+public class InformationPanel extends JPanelEnh {
 
     public InformationPanel(MainWindows frame) {
-        this.setBackground(null);
-        this.setOpaque(false);
 
+        //设置透明
+        this.setTransparent();
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         this.setLayout(gridBagLayout);

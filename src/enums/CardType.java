@@ -16,4 +16,8 @@ public class CardType {
      */
     public static final String LOGIN = "2";
 
+    /**
+     * 后台操作
+     */
+    public static final String BACKGROUND = "3";
 }

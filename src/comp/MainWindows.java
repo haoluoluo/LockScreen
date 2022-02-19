@@ -43,7 +43,11 @@ public class MainWindows extends JFrame {
         contentPane.add(informationPanel, CardType.INFORMATION);
         contentPane.add(loginPanel, CardType.LOGIN);
 
-        changeCard(CardType.INFORMATION);
+        BackgroundPanel backgroundPanel = new BackgroundPanel(this);
+        contentPane.add(backgroundPanel, CardType.BACKGROUND);
+
+//        changeCard(CardType.INFORMATION);
+        changeCard(CardType.BACKGROUND);
 
         SchedulerMain.run(this);
 
