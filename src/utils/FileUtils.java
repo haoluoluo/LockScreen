@@ -1,6 +1,10 @@
 package utils;
 
+import Config.Config;
+
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -8,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author hll
@@ -15,7 +20,7 @@ import java.util.Map;
  **/
 public class FileUtils {
     private static final ClassLoader CLASS_LOADER = FileUtils.class.getClassLoader();
-
+    public static final String FOLDER_SEPARATOR = new String(File.separatorChar+"");
     /**
      * 获取文件名去除后缀
      * @param file 文件名
@@ -34,8 +39,8 @@ public class FileUtils {
         return getFileName(new File(file));
     }
 
-    public static InputStream loadFile(String filePath){
-        File file = new File(filePath);
+    public static InputStream loadFile(String filePath ){
+        File file = new File(loadResource(filePath).getPath());
         if(file.exists()){
             try {
                 return new FileInputStream(file);
@@ -69,6 +74,15 @@ public class FileUtils {
             e.printStackTrace();
         }
     }
+    public static String read(String file){
+        StringBuffer sb = new StringBuffer();
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));){
+            sb.append(in.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
 
     public static  Map<String, String> parse(InputStream inputStream) throws IOException {
         return parse(new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)));
@@ -84,5 +98,33 @@ public class FileUtils {
             map.put(split[0], split[1]);
         }
         return map;
+    }
+
+
+    /**
+     * 获取文件路径中除了文件名称外的基础路径部分
+     @method StringUtil: BasePath()
+     @memo TODO
+     @param path
+     @param separator
+     @return String
+     */
+    static public String BasePath(String path, String separator) {
+        if(null==path) return path;
+        separator = null==separator ? FOLDER_SEPARATOR : separator;
+        int index = path.lastIndexOf(separator);
+        return path.substring(0,0==index?0:index+1);
+    }
+    static public String BasePath(String path) {
+        return BasePath(path,null);
+    }
+    public static Properties readProperties(String file) throws IOException {
+        Properties properties = new Properties();
+        // 使用InPutStream流读取properties文件
+        File osou = new File(file);
+        System.out.println(osou.getAbsoluteFile());
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+        properties.load(bufferedReader);
+        return properties;
     }
 }

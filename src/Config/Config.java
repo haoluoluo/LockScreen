@@ -19,6 +19,7 @@ public class Config {
     public static final String LOGO_IMAGE = "logo.png";
 
     public static final String INFORMATION_IMAGE = "info.png";
+    public static final String H2_PROPERTIES = "H2.properties";
 
     private static UserStatus userStatus = UserStatus.NORMAL;
 

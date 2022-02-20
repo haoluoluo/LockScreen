@@ -1,6 +1,7 @@
 package comp;
 
 import Config.Config;
+import comp.base.JPanelEnh;
 import enums.CardType;
 import utils.FileUtils;
 import utils.ImageUtils;

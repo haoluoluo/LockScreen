@@ -1,5 +1,9 @@
 package comp;
 
+
+import comp.base.JPanelEnh;
+import enums.BackgroundCardType;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,32 +11,30 @@ import java.awt.*;
  * @author luoluo.hao
  * @create 2022-02-18 17:43
  **/
-public class BackgroundPanel extends JPanelEnh{
+public class BackgroundPanel extends JPanelEnh {
 
     public BackgroundPanel(MainWindows frame){
 
-//        SpringLayout springLayout = new SpringLayout();
-//        this.setLayout(springLayout);
-        this.setTransparent();
         this.setLayout(new BorderLayout());
 
-        JPanelEnh leftJPanel = new JPanelEnh();
+
+        BackgroundTopPanel topPanel = new BackgroundTopPanel(frame);
+
         JPanelEnh rightJPanel = new JPanelEnh();
-        leftJPanel.setTransparent();
+
+        LeftBackgroundPanel leftJPanel = new LeftBackgroundPanel(rightJPanel);
+
         rightJPanel.setTransparent();
-        leftJPanel.setMinimumSize(new Dimension(30,30));
-        SpringLayout leftSpringLayout = new SpringLayout();
-        leftJPanel.setLayout(leftSpringLayout);
 
-        LeftIconJPanel setting = new LeftIconJPanel("setting-filling.png", "修改密码");
-
-        leftJPanel.add(setting);
 
         rightJPanel.setLayout(new CardLayout());
 
         PasswdPanel passwdPanel = new PasswdPanel();
+        ICPanel icPanel = new ICPanel();
 
-        rightJPanel.add(passwdPanel, "resetPdwd");
+        rightJPanel.add(passwdPanel, BackgroundCardType.CHANGE_PASSWORD);
+        rightJPanel.add(icPanel, BackgroundCardType.IC_CARD_ACTIVE);
+
 
         rightJPanel.setMinimumSize(new Dimension(60,60));
 
@@ -46,7 +48,8 @@ public class BackgroundPanel extends JPanelEnh{
         splitPane.setOneTouchExpandable(true);
         splitPane.setContinuousLayout(true);
 
-        this.add(splitPane);
+        this.add(topPanel, BorderLayout.NORTH);
+        this.add(splitPane, BorderLayout.CENTER);
 //        frame.setLocationRelativeTo(this);
 //        this.setLayout(new BorderLayout());
 //        JPanelEnh jPanelEnh = new JPanelEnh();

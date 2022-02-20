@@ -1,4 +1,4 @@
-package comp;
+package comp.base;
 
 import utils.FileUtils;
 

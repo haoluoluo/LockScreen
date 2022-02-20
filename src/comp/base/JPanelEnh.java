@@ -1,5 +1,6 @@
-package comp;
+package comp.base;
 
+import comp.ImagePanel;
 import utils.FileUtils;
 
 import javax.swing.*;

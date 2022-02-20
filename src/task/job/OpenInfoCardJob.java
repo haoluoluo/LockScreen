@@ -1,6 +1,7 @@
 package task.job;
 
 import comp.MainWindows;
+import enums.CardType;
 import enums.UserStatus;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

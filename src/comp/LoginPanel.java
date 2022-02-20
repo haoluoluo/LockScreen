@@ -2,16 +2,15 @@ package comp;
 
 import Config.Config;
 import Config.UserConfig;
+import comp.base.JPanelEnh;
 import enums.CardType;
 import enums.UserStatus;
-import utils.ASC;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.util.Objects;
+import java.io.Serial;
 
 
 /**
@@ -19,6 +18,7 @@ import java.util.Objects;
  * @create 2022-02-14 11:40
  **/
 public class LoginPanel extends JPanelEnh {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     JPasswordField passwordText = new JPasswordField(15);
@@ -40,18 +40,9 @@ public class LoginPanel extends JPanelEnh {
             public void keyPressed(KeyEvent e)
             {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    String passwd = new String(Objects.requireNonNull(ASC.encrypt(new String(passwordText.getPassword()), Config.ASC_PASSWORD)));
-                    String realPd = null;
-                    try {
-                        realPd = UserConfig.getSuperUser().get("root");
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                    if(Objects.equals(passwd, realPd)){
+                    if(UserConfig.checkPassword(String.valueOf(passwordText.getPassword()))){
                         Config.setUserStats(UserStatus.ADMIN_LOGIN);
-                        passwordText.setText("");
-                        frame.minimize();
-                        frame.changeCard(CardType.INFORMATION);
+                        frame.changeCard(CardType.BACKGROUND);
                     }
                     passwordText.setText("");
                 }
@@ -107,8 +98,6 @@ public class LoginPanel extends JPanelEnh {
 //            public void mouseClicked(MouseEvent e) {
 //                super.mouseClicked(e);
 //                String user = userText.getText();
-//                String passwd = new String(ASC.encrypt(new String(passwordText.getPassword()), Config.ASC_PASSWORD));
-//                String realPdwd = null;
 //                try {
 //                    realPdwd = UserConfig.getSuperUser().get(user);
 //                } catch (IOException ioException) {

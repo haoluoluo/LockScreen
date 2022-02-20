@@ -1,6 +1,7 @@
 package comp;
 
 import Config.Config;
+import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
 import enums.CardType;
 import enums.UserStatus;
 import task.SchedulerMain;
@@ -26,8 +27,13 @@ public class MainWindows extends JFrame {
      * 这个方法在事件调用线程中调用。
      */
     public MainWindows() {
-
         super();
+        try {
+//            new FlatDarkFlatIJTheme();
+            UIManager.setLookAndFeel( new FlatArcDarkIJTheme() );
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
+        }
 
         this.init();
 
@@ -55,18 +61,18 @@ public class MainWindows extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
-                if(Config.getUserStatus() == UserStatus.ADMIN_LOGIN){
-                    Config.setUserStats(UserStatus.NORMAL);
-                }
+//                if(Config.getUserStatus() == UserStatus.ADMIN_LOGIN){
+//                    Config.setUserStats(UserStatus.NORMAL);
+//                }
             }
             @Override
             public void windowClosing(WindowEvent e) {
             }
             @Override
             public void windowDeactivated(WindowEvent e) {
-                if(Config.getUserStatus() == UserStatus.ADMIN_LOGIN){
-                    Config.setUserStats(UserStatus.NORMAL);
-                }
+//                if(Config.getUserStatus() == UserStatus.ADMIN_LOGIN){
+//                    Config.setUserStats(UserStatus.NORMAL);
+//                }
 //                if(!Config.LOGIN_STATUS.get()){
 //                    show.set(true);
 //                    synchronized (this){
