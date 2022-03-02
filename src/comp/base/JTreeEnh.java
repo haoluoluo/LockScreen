@@ -10,7 +10,6 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Enumeration;
 
 public class JTreeEnh extends JTree {
@@ -28,20 +27,6 @@ public class JTreeEnh extends JTree {
         addMouseListener(panelEnh);
 
     }
-    public JTreeEnh() {
-        super();
-        DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-
-        renderer.setOpenIcon(new FlatTreeExpandedIcon());
-        renderer.setClosedIcon(new FlatTreeCollapsedIcon());
-
-        renderer.setLeafIcon(null);
-
-        this.setCellRenderer(renderer);
-
-
-    }
-
     public void addMouseListener(JPanelEnh panelEnh) {
         this.addMouseListener(new MouseAdapter() {
                                   public void mouseClicked(MouseEvent event) {

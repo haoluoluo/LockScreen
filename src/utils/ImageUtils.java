@@ -13,8 +13,7 @@ public class ImageUtils {
         int width=(int) (image.getIconWidth()*i);
         int height=(int) (image.getIconHeight()*i);
         Image img=image.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT);
-        ImageIcon image2=new ImageIcon(img);
 
-        return image2;
+        return new ImageIcon(img);
         }
 }

@@ -4,9 +4,11 @@ package utils;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -27,11 +29,11 @@ public class TimeUtils {
     public static String getTime(){
         String networkTime;
         try {
-            networkTime = getNetworkTime(TIME_IS);
+            networkTime = getNetworkTime(NTSC);
         } catch (IOException e) {
             e.printStackTrace();
             try {
-                networkTime = getNetworkTime(NTSC);
+                networkTime = getNetworkTime(TIME_IS);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
                 networkTime = getLocalTime();
@@ -65,7 +67,7 @@ public class TimeUtils {
         return dateTimeFormatter.format(dateTime);
     }
     public static LocalDateTime toLocalDateTime(String dateTime){
-        return toLocalDateTime(dateTime, null);
+        return toLocalDateTime(dateTime, FORMAT_YYYY);
     }
     public static LocalDateTime toLocalDateTime(String dateTime, String format) {
         if (Objects.isNull(dateTime) || Objects.equals(dateTime, "")) {
@@ -76,5 +78,9 @@ public class TimeUtils {
         }
         DateTimeFormatter df = DateTimeFormatter.ofPattern(format);
         return LocalDateTime.parse(dateTime,df);
+    }
+    public static String dateToString(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        return sdf.format(date);
     }
 }

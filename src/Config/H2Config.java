@@ -2,15 +2,14 @@ package Config;
 
 import utils.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
 public class H2Config {
-    /**
-     * 以嵌入式(本地)连接方式连接H2数据库
-     */
-    private static String DRIVER_CLASS;
     private static String JDBC_URL;
 
     private static String USER;
@@ -19,14 +18,20 @@ public class H2Config {
     static {
         try {
             Properties properties = FileUtils.readProperties(Config.H2_PROPERTIES);
-            DRIVER_CLASS = properties.getProperty("driver-class-name");
-            JDBC_URL = (String) properties.get("url");
+
+            String DRIVER_CLASS = properties.getProperty("driver-class-name");
+            File file = new File("");
+            JDBC_URL = "jdbc:h2:file:"+file.getAbsolutePath()+"/H2/db";
+//            JDBC_URL = properties.getProperty("url");
             USER = properties.getProperty("username");
             PASSWORD = properties.getProperty("password");
             Class.forName(DRIVER_CLASS);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+            execute("CREATE TABLE IF NOT EXISTS CARD(id VARCHAR(20) PRIMARY KEY, name VARCHAR(100), permission VARCHAR(1))");
+            execute("CREATE TABLE IF NOT EXISTS CARD_HISTORY(id INTEGER auto_increment,cardId VARCHAR(20), inTime DATETIME, outTime DATETIME," +
+                    " PRIMARY KEY (id)" +
+                    ")");
+            execute("CREATE TABLE IF NOT EXISTS CARD_HISTORY_TEMP(cardId VARCHAR(20), inTime DATETIME)");
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -39,30 +44,30 @@ public class H2Config {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
-
-    public static void main(String[] args) throws Exception {
-        // TODO Auto-generated method stub
-
-        execute("CREATE TABLE CARD(id VARCHAR(10) PRIMARY KEY, name VARCHAR(100))");
-//        Connection conn = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-//        Statement statement = conn.createStatement();
-//        statement.execute("DROP TABLE IF EXISTS CARD");
-//        statement.execute("CREATE TABLE CARD(id VARCHAR(10) PRIMARY KEY, name VARCHAR(100))");
-
-//        statement.executeUpdate("INSERT INTO USER_INF VALUES(1, 'tom', '男') ");
-//        statement.executeUpdate("INSERT INTO USER_INF VALUES(2, 'jack', '女') ");
-//        statement.executeUpdate("INSERT INTO USER_INF VALUES(3, 'marry', '男') ");
-//        statement.executeUpdate("INSERT INTO USER_INF VALUES(4, 'lucy', '男') ");
-//
-//        ResultSet resultSet = statement.executeQuery("select * from USER_INF");
-//
-//        while (resultSet.next()) {
-//            System.out.println(
-//                    resultSet.getInt("id") + ", " + resultSet.getString("name") + ", " + resultSet.getString("sex"));
-//        }
-
-
+    public static boolean update(String sql){
+        try (Connection connection = getConnection();Statement statement = connection.createStatement()){
+            boolean execute = statement.execute(sql);
+            connection.commit();
+            return execute;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static void executeQueryCARD(){
+        try (Connection connection = getConnection();Statement statement = connection.createStatement()){
+            ResultSet resultSet = statement.executeQuery("select * from CARD");
+            while (resultSet.next()) {
+                List<String> list = new LinkedList<>();
+                try {
+                    list.add(resultSet.getString(1));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

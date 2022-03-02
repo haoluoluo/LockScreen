@@ -13,11 +13,7 @@
 
 package lc;
 
-import utils.FileUtils;
-
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
+import java.io.File;
 import java.util.Objects;
 
 public class comproCall
@@ -25,18 +21,14 @@ public class comproCall
     static
     {
 		String property = System.getProperty("sun.arch.data.model");
-		URL res = null;
+		String path = new File("").getAbsolutePath();
 		if(Objects.equals(property, "64")){
-			res = FileUtils.loadResource("win64/comPro.dll");
+			path += "/resources/win64/comPro.dll";
 		}else if(Objects.equals(property, "32")){
-			res = FileUtils.loadResource("win32/comPro.dll");
+			path += "/resources/win32/comPro.dll";
 		}
-		try {
-			System.load(Paths.get(res.toURI()).toFile().getAbsolutePath());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-//       System.loadLibrary("comPro");
+		System.load(path);
+		//       System.loadLibrary("comPro");
     }
 
     /*  Common Functions */

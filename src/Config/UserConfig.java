@@ -1,7 +1,8 @@
 package Config;
 
+import org.apache.commons.lang3.StringUtils;
 import utils.AES;
-import utils.FileUtils;
+import utils.PropertiesUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -13,7 +14,12 @@ import java.util.Objects;
 public class UserConfig {
 
     public static String getSuperUserPassword() {
-        return FileUtils.read(Config.PASSWORD_FILE);
+
+        String password = String.valueOf(Config.PROPERTIES.get(Config.PASSWORD_PROPERTIES));
+        if(StringUtils.isEmpty(password)){
+            password = encrypt("admin");
+        }
+        return password;
     }
 
     public static Boolean checkPassword(String password){
@@ -24,7 +30,8 @@ public class UserConfig {
 
     public static void setPassword(String password) {
         String passwd = encrypt(password);
-        FileUtils.write(Config.PASSWORD_FILE, passwd);
+        Config.PROPERTIES.setProperty(Config.PASSWORD_PROPERTIES, passwd);
+        PropertiesUtils.store(Config.SET_PROPERTIES, Config.PROPERTIES);
     }
     public static String encrypt(String password){
         byte[] encrypt = new AES().encrypt(password.getBytes(StandardCharsets.UTF_8), Config.ASC_PASSWORD.getBytes(StandardCharsets.UTF_8), null);

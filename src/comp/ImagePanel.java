@@ -8,7 +8,7 @@ import java.awt.*;
  * @create 2022-02-16 16:01
  **/
 public class ImagePanel extends JComponent {
-        private Image image;
+        private final Image image;
         public ImagePanel(Image image) {
                 this.image = image;
         }

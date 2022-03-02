@@ -1,11 +1,9 @@
 package utils;
 
-import Config.Config;
 
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,7 +18,7 @@ import java.util.Properties;
  **/
 public class FileUtils {
     private static final ClassLoader CLASS_LOADER = FileUtils.class.getClassLoader();
-    public static final String FOLDER_SEPARATOR = new String(File.separatorChar+"");
+    public static final String FOLDER_SEPARATOR = File.separatorChar + "";
     /**
      * 获取文件名去除后缀
      * @param file 文件名
@@ -58,7 +56,7 @@ public class FileUtils {
      * @param path 位置
      * @param content 内容
      */
-    public static void write(String path,String content)  {
+    public static void write(String path,String content, Charset cs)  {
         Path filePath = Paths.get(path);
         if(!Files.exists(filePath)){
             try{
@@ -67,12 +65,15 @@ public class FileUtils {
                 e.printStackTrace();
             }
         }
-        try (BufferedWriter bufferedWriter = Files.newBufferedWriter(Paths.get(path))){
+        try (BufferedWriter bufferedWriter = Files.newBufferedWriter(Paths.get(path), cs)){
             bufferedWriter.write(content);
             bufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public static void write(String path,String content)  {
+        write(path, content, StandardCharsets.UTF_8);
     }
     public static String read(String file){
         StringBuffer sb = new StringBuffer();
@@ -121,8 +122,6 @@ public class FileUtils {
     public static Properties readProperties(String file) throws IOException {
         Properties properties = new Properties();
         // 使用InPutStream流读取properties文件
-        File osou = new File(file);
-        System.out.println(osou.getAbsoluteFile());
         BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         properties.load(bufferedReader);
         return properties;

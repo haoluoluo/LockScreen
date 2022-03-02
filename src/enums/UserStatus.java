@@ -11,5 +11,10 @@ public enum UserStatus {
    /**
     * 登录模式
     */
-   ADMIN_LOGIN;
+   ADMIN_LOGIN,
+
+   /**
+    * 用户登录模式
+    */
+   USER_LOGIN, USER_LOGIN_ING, USER_OUT_ING, ADMIN_LOGIN_ING, ADMIN_OUT_ING;
 }

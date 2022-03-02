@@ -32,8 +32,17 @@ public class BackgroundPanel extends JPanelEnh {
         PasswdPanel passwdPanel = new PasswdPanel();
         ICPanel icPanel = new ICPanel();
 
-        rightJPanel.add(passwdPanel, BackgroundCardType.CHANGE_PASSWORD);
+        CardInfoPanel cardInfoPanel = new CardInfoPanel();
+
+        SwipeCardPanel swipeCardPanel = new SwipeCardPanel();
+
+        AppearancePanel appearancePanel = new AppearancePanel();
+        rightJPanel.add(new HelloPanel(), "welcome");
+        rightJPanel.add(cardInfoPanel, BackgroundCardType.IC_CARD_INFO);
+        rightJPanel.add(swipeCardPanel, BackgroundCardType.IC_HISTORY);
         rightJPanel.add(icPanel, BackgroundCardType.IC_CARD_ACTIVE);
+        rightJPanel.add(appearancePanel, BackgroundCardType.APPEARANCE);
+        rightJPanel.add(passwdPanel, BackgroundCardType.CHANGE_PASSWORD);
 
 
         rightJPanel.setMinimumSize(new Dimension(60,60));
@@ -50,31 +59,6 @@ public class BackgroundPanel extends JPanelEnh {
 
         this.add(topPanel, BorderLayout.NORTH);
         this.add(splitPane, BorderLayout.CENTER);
-//        frame.setLocationRelativeTo(this);
-//        this.setLayout(new BorderLayout());
-//        JPanelEnh jPanelEnh = new JPanelEnh();
-//
-//        frame.setLocationRelativeTo(jPanelEnh);
-//
-//
-//
-//        jPanelEnh.setBorder(BorderFactory.createEmptyBorder(20,20,10,20));
-//        jPanelEnh.setBackground(Color.BLUE);
-//        jPanelEnh.setVisible(true);
-//
-//        JButton btn1=new JButton("我是普通按钮");    //创建JButton对象
-//        JButton btn2=new JButton("我是带背景颜色按钮");
-//        JButton btn3=new JButton("我是不可用按钮");
-//        JButton btn4=new JButton("我是底部对齐按钮");
-//
-//        jPanelEnh.add(btn1);
-//        jPanelEnh.add(btn2);
-//        this.add(jPanelEnh);
-//
-//        SpringLayout.Constraints constraints = springLayout.getConstraints(jPanelEnh);
-//        constraints.setX(Spring.constant(40));
-//        constraints.setY(Spring.constant(40));
-//        constraints.setConstraint(SpringLayout.SOUTH, springLayout.getConstraints(this).getConstraint(SpringLayout.SOUTH));
 
         this.setVisible(true);
     }

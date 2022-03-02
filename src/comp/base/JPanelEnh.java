@@ -1,28 +1,13 @@
 package comp.base;
 
-import comp.ImagePanel;
-import utils.FileUtils;
-
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
 
 /**
  * @author luoluo.hao
  * @create 2022-02-16 21:46
  **/
 public class JPanelEnh extends JPanel {
-
-    public void setImage(String path){
-        URL backUrl = FileUtils.loadResource(path);
-        ImageIcon imageicon = new ImageIcon(backUrl);
-        Image backImage = imageicon.getImage();
-        if(this.getHeight()>0 && this.getWidth()>0){
-            backImage = (imageicon).getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
-        }
-        this.add(new ImagePanel(backImage));
-        this.setVisible(true);
-    }
 
     public void setTransparent(){
         this.setBackground(null);

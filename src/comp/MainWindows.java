@@ -3,14 +3,17 @@ package comp;
 import Config.Config;
 import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
 import enums.CardType;
-import enums.UserStatus;
+import org.apache.commons.lang3.StringUtils;
 import task.SchedulerMain;
 import utils.FileUtils;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 /**
@@ -19,9 +22,6 @@ import java.net.URL;
  **/
 public class MainWindows extends JFrame {
 
-
-    private final Boolean isTest = true;
-//    private final AtomicBoolean show = new AtomicBoolean(true);
     /**
      * 创建并显示GUI。出于线程安全的考虑，
      * 这个方法在事件调用线程中调用。
@@ -29,7 +29,6 @@ public class MainWindows extends JFrame {
     public MainWindows() {
         super();
         try {
-//            new FlatDarkFlatIJTheme();
             UIManager.setLookAndFeel( new FlatArcDarkIJTheme() );
         } catch( Exception ex ) {
             System.err.println( "Failed to initialize LaF" );
@@ -52,8 +51,9 @@ public class MainWindows extends JFrame {
         BackgroundPanel backgroundPanel = new BackgroundPanel(this);
         contentPane.add(backgroundPanel, CardType.BACKGROUND);
 
-//        changeCard(CardType.INFORMATION);
-        changeCard(CardType.BACKGROUND);
+
+
+        changeCard(CardType.INFORMATION);
 
         SchedulerMain.run(this);
 
@@ -61,45 +61,17 @@ public class MainWindows extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
-//                if(Config.getUserStatus() == UserStatus.ADMIN_LOGIN){
-//                    Config.setUserStats(UserStatus.NORMAL);
-//                }
             }
             @Override
             public void windowClosing(WindowEvent e) {
             }
             @Override
             public void windowDeactivated(WindowEvent e) {
-//                if(Config.getUserStatus() == UserStatus.ADMIN_LOGIN){
-//                    Config.setUserStats(UserStatus.NORMAL);
-//                }
-//                if(!Config.LOGIN_STATUS.get()){
-//                    show.set(true);
-//                    synchronized (this){
-//                        ThreadPoolUtils.executor(()->{
-//                            while (show.get()){
-//                                maximize();
-//                                try {
-//                                    synchronized (MainWindows.class){
-//                                        this.wait(100);
-//                                    }
-//                                } catch (InterruptedException interruptedException) {
-//                                    interruptedException.printStackTrace();
-//                                }
-//                            }
-//                        });
-//                    }
-//                }
             }
         });
     }
 
     public void init(){
-        if(isTest){
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.setAlwaysOnTop(true);
-            this.setSize(1000, 1000);
-        }else {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             this.setAlwaysOnTop(true);
             this.setResizable(false);
@@ -110,27 +82,37 @@ public class MainWindows extends JFrame {
             this.setBounds(bounds);
 
             this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        }
 
-        setIcon(this);
+        this.setIcon();
+        this.setBackground();
         this.setVisible(true);
     }
-    public static void setIcon(JFrame frame){
+    public void setIcon(){
         //设置logo
-        Toolkit toolkit=frame.getToolkit();
+        Toolkit toolkit=this.getToolkit();
         URL resource = FileUtils.loadResource(Config.LOGO_IMAGE);
         Image topic=toolkit.getImage(resource);
-        frame.setIconImage(topic);
-
-
+        this.setIconImage(topic);
+    }
+    public void setBackground(){
         //设置背景图片
-        URL backUrl = FileUtils.loadResource(Config.BACKGROUND_IMAGE);
-        ImageIcon imageicon = new ImageIcon(backUrl);
-        Image backImage = imageicon.getImage();
-        if(frame.getHeight()>0 && frame.getWidth()>0){
-            backImage = (imageicon).getImage().getScaledInstance(frame.getWidth(), frame.getHeight(), Image.SCALE_SMOOTH);
+        Image backImage = null;
+        File backgroundImage = new File(String.valueOf(Config.PROPERTIES.get(Config.BACKGROUND_IMAGE_PROPERTY)));
+        if( StringUtils.isEmpty(String.valueOf(Config.PROPERTIES.get(Config.BACKGROUND_IMAGE_PROPERTY))) || !backgroundImage.exists()){
+            URL backUrl = FileUtils.loadResource(Config.BACKGROUND_IMAGE);
+            ImageIcon imageicon = new ImageIcon(backUrl);
+            backImage = imageicon.getImage();
+        }else {
+            try {
+                backImage = ImageIO.read(backgroundImage);
+            } catch (IOException ignored) {
+            }
         }
-        frame.setContentPane(new ImagePanel(backImage));
+        if(this.getHeight()>0 && this.getWidth()>0){
+            assert backImage != null;
+            backImage = backImage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+        }
+        this.setContentPane(new ImagePanel(backImage));
     }
 
     public void changeCard(String card){
@@ -142,10 +124,6 @@ public class MainWindows extends JFrame {
     }
 
     public void maximize(){
-        if(isTest){
-            this.setExtendedState(JFrame.NORMAL);
-        }else {
             this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        }
     }
 }

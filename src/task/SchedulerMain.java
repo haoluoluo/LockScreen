@@ -19,16 +19,18 @@ public class SchedulerMain {
 
     private static JobDetail infoCardJob;
 
+
     public static void run(MainWindows mainWindows)  {
         main = mainWindows;
 
         infoCardJob = JobBuilder.newJob(OpenInfoCardJob.class)
                 .withIdentity("infoCard", "group1").build();
 
+
         Trigger trigger = TriggerBuilder
                 .newTrigger()
                 .withIdentity("oneSec", "group")
-                .withSchedule(CronScheduleBuilder.cronSchedule("0/1 * * * * ?"))
+                .withSchedule(CronScheduleBuilder.cronSchedule("0/2 * * * * ?"))
                 .build();
         try {
             Scheduler s = getScheduler();
@@ -37,6 +39,9 @@ public class SchedulerMain {
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+    }
+    public static void shutdown() throws SchedulerException {
+        scheduler.shutdown();
     }
     public static Scheduler getScheduler(){
         if (scheduler == null) {
